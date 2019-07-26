@@ -1,0 +1,32 @@
+import json
+from difflib import get_close_matches
+
+data = json.load(open("data.json"))
+dict_keys = data.keys()
+
+
+def dictionary(w):
+    w = w.lower()
+
+    replacement = get_close_matches(w,dict_keys)
+# scenario #1
+    if w in data.keys():
+        return data[w]
+# scenario #2
+    elif len(replacement) >= 0:
+        yn = input("Did you mean %s instead?" % replacement[0])
+        if yn == 'Y':
+            return dictionary(replacement[0])
+        else:
+            return 'please try another entry.. thanks!'
+# scenario #3
+    else:
+        return("Please, check your spelling")
+
+word = input("select your definition:")
+
+result = dictionary(word)
+# if not a list then the i would represent every character in a string
+if type(result) == list:
+    for i in result:
+        print(i)
